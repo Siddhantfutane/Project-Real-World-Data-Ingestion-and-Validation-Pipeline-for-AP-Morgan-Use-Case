@@ -5,8 +5,14 @@
 		"factoryName": {
 			"value": "apm-datafactory2"
 		},
+		"ADLS_LS_accountKey": {
+			"value": ""
+		},
 		"Azure_KV_LS_properties_typeProperties_baseUrl": {
 			"value": "https://APMKeyV.vault.azure.net/"
+		},
+		"ADLS_LS_properties_typeProperties_url": {
+			"value": "https://project2adls.dfs.core.windows.net/"
 		},
 		"containerUri": {
 			"value": ""
