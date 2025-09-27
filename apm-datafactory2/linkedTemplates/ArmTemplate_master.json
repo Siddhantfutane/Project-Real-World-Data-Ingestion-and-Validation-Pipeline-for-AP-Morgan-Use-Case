@@ -11,13 +11,21 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ADLS_LS'"
 		},
+		"ADLS_LS_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://project2adls.dfs.core.windows.net/"
+		},
 		"Azure_KV_LS_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://APMKeyV.vault.azure.net/"
 		},
-		"ADLS_LS_properties_typeProperties_url": {
+		"Storage_event_trigger_properties_Call_Data_Bricks_parameters_fileName": {
 			"type": "string",
-			"defaultValue": "https://project2adls.dfs.core.windows.net/"
+			"defaultValue": "@triggerBody().fileName"
+		},
+		"Storage_event_trigger_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/6cc35034-e449-4928-9254-ee5c05fc4e67/resourceGroups/Projects/providers/Microsoft.Storage/storageAccounts/project2adls"
 		},
 		"containerUri": {
 			"type": "string",
@@ -49,11 +57,17 @@
 					"ADLS_LS_accountKey": {
 						"value": "[parameters('ADLS_LS_accountKey')]"
 					},
+					"ADLS_LS_properties_typeProperties_url": {
+						"value": "[parameters('ADLS_LS_properties_typeProperties_url')]"
+					},
 					"Azure_KV_LS_properties_typeProperties_baseUrl": {
 						"value": "[parameters('Azure_KV_LS_properties_typeProperties_baseUrl')]"
 					},
-					"ADLS_LS_properties_typeProperties_url": {
-						"value": "[parameters('ADLS_LS_properties_typeProperties_url')]"
+					"Storage_event_trigger_properties_Call_Data_Bricks_parameters_fileName": {
+						"value": "[parameters('Storage_event_trigger_properties_Call_Data_Bricks_parameters_fileName')]"
+					},
+					"Storage_event_trigger_properties_typeProperties_scope": {
+						"value": "[parameters('Storage_event_trigger_properties_typeProperties_scope')]"
 					}
 				}
 			},

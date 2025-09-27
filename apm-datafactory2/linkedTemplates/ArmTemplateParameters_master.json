@@ -8,11 +8,17 @@
 		"ADLS_LS_accountKey": {
 			"value": ""
 		},
+		"ADLS_LS_properties_typeProperties_url": {
+			"value": "https://project2adls.dfs.core.windows.net/"
+		},
 		"Azure_KV_LS_properties_typeProperties_baseUrl": {
 			"value": "https://APMKeyV.vault.azure.net/"
 		},
-		"ADLS_LS_properties_typeProperties_url": {
-			"value": "https://project2adls.dfs.core.windows.net/"
+		"Storage_event_trigger_properties_Call_Data_Bricks_parameters_fileName": {
+			"value": "@triggerBody().fileName"
+		},
+		"Storage_event_trigger_properties_typeProperties_scope": {
+			"value": "/subscriptions/6cc35034-e449-4928-9254-ee5c05fc4e67/resourceGroups/Projects/providers/Microsoft.Storage/storageAccounts/project2adls"
 		},
 		"containerUri": {
 			"value": ""

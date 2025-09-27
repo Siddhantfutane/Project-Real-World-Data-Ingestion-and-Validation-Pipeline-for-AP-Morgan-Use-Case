@@ -11,32 +11,27 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ADLS_LS'"
 		},
+		"ADLS_LS_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://project2adls.dfs.core.windows.net/"
+		},
 		"Azure_KV_LS_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://APMKeyV.vault.azure.net/"
 		},
-		"ADLS_LS_properties_typeProperties_url": {
+		"Storage_event_trigger_properties_Call_Data_Bricks_parameters_fileName": {
 			"type": "string",
-			"defaultValue": "https://project2adls.dfs.core.windows.net/"
+			"defaultValue": "@triggerBody().fileName"
+		},
+		"Storage_event_trigger_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/6cc35034-e449-4928-9254-ee5c05fc4e67/resourceGroups/Projects/providers/Microsoft.Storage/storageAccounts/project2adls"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
-		{
-			"name": "[concat(parameters('factoryName'), '/Azure_KV_LS')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureKeyVault",
-				"typeProperties": {
-					"baseUrl": "[parameters('Azure_KV_LS_properties_typeProperties_baseUrl')]"
-				}
-			},
-			"dependsOn": []
-		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ADLS_LS')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
@@ -55,14 +50,15 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/Azure_KV_LS')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('Azure_KV_LS_properties_typeProperties_baseUrl')]"
+				}
 			},
 			"dependsOn": []
 		},
@@ -93,6 +89,86 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/Azure_KV_LS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Call_Data_Bricks')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Calling Azure Notebook",
+						"type": "DatabricksNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Users/mukund.kollipara@gmail.com/APM_Project2",
+							"baseParameters": {
+								"fileName": {
+									"value": "@pipeline().parameters.fileName",
+									"type": "Expression"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "AZDB_LS",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"fileName": {
+						"type": "string"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AZDB_LS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Storage_event_trigger')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "Call_Data_Bricks",
+							"type": "PipelineReference"
+						},
+						"parameters": {
+							"fileName": "[parameters('Storage_event_trigger_properties_Call_Data_Bricks_parameters_fileName')]"
+						}
+					}
+				],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/inputdata/blobs/landing",
+					"blobPathEndsWith": ".csv",
+					"ignoreEmptyBlobs": true,
+					"scope": "[parameters('Storage_event_trigger_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/Call_Data_Bricks')]"
 			]
 		}
 	]
