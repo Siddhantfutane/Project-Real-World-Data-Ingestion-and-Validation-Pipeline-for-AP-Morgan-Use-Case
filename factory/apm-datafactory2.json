@@ -1,0 +1,9 @@
+{
+	"name": "apm-datafactory2",
+	"location": "eastus2",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "a6e49e80-971d-427f-ad33-64cad72c4f5a",
+		"tenantId": "622d6f2c-802a-47ad-ac53-de631c6651ff"
+	}
+}
