@@ -8,6 +8,9 @@
 				"pipelineReference": {
 					"referenceName": "Call_Data_Bricks",
 					"type": "PipelineReference"
+				},
+				"parameters": {
+					"fileName": "@triggerBody().fileName"
 				}
 			}
 		],
