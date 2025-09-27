@@ -1,0 +1,10 @@
+{
+	"name": "Azure_KV_LS",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://APMKeyV.vault.azure.net/"
+		}
+	}
+}
