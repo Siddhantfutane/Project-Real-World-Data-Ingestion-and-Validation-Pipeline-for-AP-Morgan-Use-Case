@@ -19,11 +19,15 @@
 			"type": "string",
 			"defaultValue": "https://APMKeyV.vault.azure.net/"
 		},
-		"Storage_event_trigger_properties_Call_Data_Bricks_parameters_fileName": {
+		"AZDB_LS_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "0926-103034-4pj313fc"
+		},
+		"Storage_Trigger_properties_Invoke_Notebook_parameters_fileName": {
 			"type": "string",
 			"defaultValue": "@triggerBody().fileName"
 		},
-		"Storage_event_trigger_properties_typeProperties_scope": {
+		"Storage_Trigger_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/6cc35034-e449-4928-9254-ee5c05fc4e67/resourceGroups/Projects/providers/Microsoft.Storage/storageAccounts/project2adls"
 		}
@@ -80,11 +84,7 @@
 						"secretName": "Databricks-token",
 						"secretVersion": "226c37b38a8a459bad5c3232f5e9244e"
 					},
-					"newClusterNodeType": "Standard_F4",
-					"newClusterNumOfWorker": "1",
-					"newClusterVersion": "10.4.x-scala2.12",
-					"clusterOption": "Fixed",
-					"newClusterInitScripts": []
+					"existingClusterId": "[parameters('AZDB_LS_properties_typeProperties_existingClusterId')]"
 				}
 			},
 			"dependsOn": [
@@ -92,13 +92,13 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Call_Data_Bricks')]",
+			"name": "[concat(parameters('factoryName'), '/Invoke_Notebook')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "Calling Azure Notebook",
+						"name": "call_notebook",
 						"type": "DatabricksNotebook",
 						"dependsOn": [],
 						"policy": {
@@ -139,7 +139,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Storage_event_trigger')]",
+			"name": "[concat(parameters('factoryName'), '/Storage_Trigger')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -148,11 +148,11 @@
 				"pipelines": [
 					{
 						"pipelineReference": {
-							"referenceName": "Call_Data_Bricks",
+							"referenceName": "Invoke_Notebook",
 							"type": "PipelineReference"
 						},
 						"parameters": {
-							"fileName": "[parameters('Storage_event_trigger_properties_Call_Data_Bricks_parameters_fileName')]"
+							"fileName": "[parameters('Storage_Trigger_properties_Invoke_Notebook_parameters_fileName')]"
 						}
 					}
 				],
@@ -161,14 +161,14 @@
 					"blobPathBeginsWith": "/inputdata/blobs/landing",
 					"blobPathEndsWith": ".csv",
 					"ignoreEmptyBlobs": true,
-					"scope": "[parameters('Storage_event_trigger_properties_typeProperties_scope')]",
+					"scope": "[parameters('Storage_Trigger_properties_typeProperties_scope')]",
 					"events": [
 						"Microsoft.Storage.BlobCreated"
 					]
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/Call_Data_Bricks')]"
+				"[concat(variables('factoryId'), '/pipelines/Invoke_Notebook')]"
 			]
 		}
 	]

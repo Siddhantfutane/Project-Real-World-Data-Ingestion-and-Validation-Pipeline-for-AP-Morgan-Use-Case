@@ -15,15 +15,19 @@
 			"type": "string",
 			"defaultValue": "https://project2adls.dfs.core.windows.net/"
 		},
+		"AZDB_LS_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "0926-103034-4pj313fc"
+		},
 		"Azure_KV_LS_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://APMKeyV.vault.azure.net/"
 		},
-		"Storage_event_trigger_properties_Call_Data_Bricks_parameters_fileName": {
+		"Storage_Trigger_properties_Invoke_Notebook_parameters_fileName": {
 			"type": "string",
 			"defaultValue": "@triggerBody().fileName"
 		},
-		"Storage_event_trigger_properties_typeProperties_scope": {
+		"Storage_Trigger_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/6cc35034-e449-4928-9254-ee5c05fc4e67/resourceGroups/Projects/providers/Microsoft.Storage/storageAccounts/project2adls"
 		},
@@ -63,11 +67,14 @@
 					"Azure_KV_LS_properties_typeProperties_baseUrl": {
 						"value": "[parameters('Azure_KV_LS_properties_typeProperties_baseUrl')]"
 					},
-					"Storage_event_trigger_properties_Call_Data_Bricks_parameters_fileName": {
-						"value": "[parameters('Storage_event_trigger_properties_Call_Data_Bricks_parameters_fileName')]"
+					"AZDB_LS_properties_typeProperties_existingClusterId": {
+						"value": "[parameters('AZDB_LS_properties_typeProperties_existingClusterId')]"
 					},
-					"Storage_event_trigger_properties_typeProperties_scope": {
-						"value": "[parameters('Storage_event_trigger_properties_typeProperties_scope')]"
+					"Storage_Trigger_properties_Invoke_Notebook_parameters_fileName": {
+						"value": "[parameters('Storage_Trigger_properties_Invoke_Notebook_parameters_fileName')]"
+					},
+					"Storage_Trigger_properties_typeProperties_scope": {
+						"value": "[parameters('Storage_Trigger_properties_typeProperties_scope')]"
 					}
 				}
 			},
