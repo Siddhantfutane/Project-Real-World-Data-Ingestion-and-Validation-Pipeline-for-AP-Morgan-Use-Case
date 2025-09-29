@@ -1,4 +1,5 @@
 Project Overview
+<img width="394" height="282" alt="Project2_Archiecture-NdEFELlnQR" src="https://github.com/user-attachments/assets/983c07f0-f9e9-4445-b863-0ae8681e8925" />
 
 The process begins with ingesting raw data, delivered in CSV format, into Azure Data Lake Storage (ADLS). This serves as the centralized landing zone where data first arrives. From here, the workflow ensures that only high-quality, validated data moves forward, while erroneous or duplicate data is captured for review.
 
