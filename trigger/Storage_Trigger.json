@@ -8,6 +8,9 @@
 				"pipelineReference": {
 					"referenceName": "Invoke_Notebook",
 					"type": "PipelineReference"
+				},
+				"parameters": {
+					"fileName": "@triggerBody().fileName"
 				}
 			}
 		],
