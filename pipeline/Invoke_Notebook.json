@@ -15,7 +15,13 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"notebookPath": "/Users/mukund.kollipara@gmail.com/APM_Project2"
+					"notebookPath": "/Users/mukund.kollipara@gmail.com/APM_Project2",
+					"baseParameters": {
+						"fileName": {
+							"value": "@pipeline().parameters.fileName",
+							"type": "Expression"
+						}
+					}
 				},
 				"linkedServiceName": {
 					"referenceName": "AZDB_LS",
