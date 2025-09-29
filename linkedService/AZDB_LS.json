@@ -14,11 +14,7 @@
 				"secretName": "Databricks-token",
 				"secretVersion": "226c37b38a8a459bad5c3232f5e9244e"
 			},
-			"newClusterNodeType": "Standard_F4",
-			"newClusterNumOfWorker": "1",
-			"newClusterVersion": "10.4.x-scala2.12",
-			"clusterOption": "Fixed",
-			"newClusterInitScripts": []
+			"existingClusterId": "0926-103034-4pj313fc"
 		}
 	}
 }
